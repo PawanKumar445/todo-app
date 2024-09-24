@@ -1,21 +1,25 @@
 import React, { useState } from "react";
 
 export const MainComponent = () => {
+  
   const [todoList, setTodoList] = useState<Todo[]>([
     {
       value: "Task1",
       checked: false,
+      isCompleted: false,
     },
     {
       value: "Task2",
       checked: false,
+      isCompleted: false,
     },
     {
       value: "Task3",
       checked: false,
+      isCompleted: false,
     },
   ]);
-  const initialTodo: Todo = { value: "", checked: false};
+  const initialTodo: Todo = { value: "", checked: false, isCompleted: false };
   const [todo, setTodo] = useState<Todo>(initialTodo);
 
   const handleTodoInput = (e) => {
@@ -43,7 +47,7 @@ export const MainComponent = () => {
   const handleCheckBox = (clickedTodo: Todo) => {
     const updatedTotoList: any[] = todoList.map((t) => {
       if (t?.value === clickedTodo?.value) {
-        return { ...t, checked: !clickedTodo.checked };
+        return { ...t, checked: !clickedTodo.checked, isCompleted: !clickedTodo.isCompleted };
       } else return t;
     });
     setTodoList(updatedTotoList);
@@ -74,7 +78,7 @@ export const MainComponent = () => {
             {todoList.map((todo: Todo, index: number) => (
               <li
                 key={index}
-                className="p-2 text-lg font-semibold font-serif bg-orange-300 my-2 hover:bg-slate-50 rounded-md"
+                className="p-2 text-lg font-semibold font-serif bg-slate-100 my-2 hover:bg-orange-100 rounded-md"
               >
                 <input
                   type="checkbox"
@@ -84,13 +88,16 @@ export const MainComponent = () => {
                 />
                 <span className="me-3 ">{index + 1}.</span>
                 <span
-                  contentEditable 
+                  contentEditable
                   suppressContentEditableWarning
                   className={`${
                     todo?.checked ? "line-through" : ""
                   } outline-none`}
                 >
                   {todo?.value}
+                </span>
+                <span className={`text-sm font-normal mx-5 ${todo?.isCompleted? 'text-lime-600':'text-red-600'}`}>
+                  {todo?.isCompleted?'completed':'pending'}
                 </span>
               </li>
             ))}
@@ -104,4 +111,5 @@ export const MainComponent = () => {
 class Todo {
   value: string;
   checked: boolean;
+  isCompleted: boolean;
 }
